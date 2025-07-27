@@ -1,0 +1,32 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+  <title>WebSocket Sniffer</title>
+  <meta charset="UTF-8">
+  <style>
+    body { font-family: sans-serif; text-align: center; padding: 50px; }
+    #wsList { white-space: pre-wrap; background: #f5f5f5; padding: 20px; border: 1px solid #ccc; }
+  </style>
+</head>
+<body>
+  <h2>📡 WebSocket Sniffer</h2>
+  <p>افتح هذا الملف داخل متصفح الجوال أثناء دخولك على <b>Pocket Option</b></p>
+  <button onclick="showSockets()">📤 استخراج WebSocket</button>
+  <div id="wsList"></div>
+
+  <script>
+    const wsLog = [];
+    const OriginalWebSocket = window.WebSocket;
+    window.WebSocket = function(url, protocols) {
+      wsLog.push(url);
+      console.log("📡 WebSocket:", url);
+      return protocols ? new OriginalWebSocket(url, protocols) : new OriginalWebSocket(url);
+    };
+    function showSockets() {
+      const output = wsLog.length ? wsLog.join('\n\n') : "❌ لم يتم التقاط أي WebSocket بعد.";
+      document.getElementById('wsList').innerText = output;
+    }
+  </script>
+</body>
+</html>
