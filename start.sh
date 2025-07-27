@@ -1,1 +1,0 @@
-python3 pocket_option_live_ws.py
