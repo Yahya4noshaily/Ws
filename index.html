@@ -1,0 +1,62 @@
+
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+  <meta charset="UTF-8">
+  <title>توصيات لايف - Pocket Option</title>
+  <style>
+    body { font-family: sans-serif; background: #111; color: #fff; text-align: center; padding: 50px; }
+    .login-box, .content-box { background: #222; padding: 20px; border-radius: 10px; display: inline-block; }
+    input[type="password"] { padding: 10px; font-size: 16px; }
+    .hidden { display: none; }
+    h1 { color: #0f0; }
+    .value { font-size: 26px; font-weight: bold; margin-bottom: 10px; }
+    .label { color: #aaa; margin-top: 15px; }
+    .timestamp { font-size: 13px; color: #777; margin-top: 20px; }
+  </style>
+</head>
+<body>
+  <div class="login-box" id="loginBox">
+    <h2>🔐 أدخل كلمة المرور</h2>
+    <input type="password" id="password" placeholder="كلمة المرور">
+    <button onclick="checkPassword()">دخول</button>
+  </div>
+
+  <div class="content-box hidden" id="contentBox">
+    <h1>📡 توصيات لايف من حسابك الحقيقي</h1>
+    <div class="label">السعر الحالي:</div>
+    <div class="value" id="price">1.12721</div>
+
+    <div class="label">التوصية الحالية:</div>
+    <div class="value" id="signal">🟢 شراء (BUY)</div>
+
+    <div class="label">مدة الصفقة:</div>
+    <div class="value">1 دقيقة</div>
+
+    <div class="timestamp" id="time">آخر تحديث: الآن</div>
+  </div>
+
+  <script>
+    const correctPassword = "2025";
+    function checkPassword() {
+      const input = document.getElementById("password").value;
+      if (input === correctPassword) {
+        document.getElementById("loginBox").classList.add("hidden");
+        document.getElementById("contentBox").classList.remove("hidden");
+      } else {
+        alert("❌ كلمة المرور غير صحيحة");
+      }
+    }
+
+    setInterval(() => {
+      fetch('/data.json')
+        .then(res => res.json())
+        .then(data => {
+          document.getElementById('price').innerText = data.price;
+          document.getElementById('signal').innerText = data.signal;
+          document.getElementById('time').innerText = 'آخر تحديث: ' + new Date().toLocaleTimeString();
+        });
+    }, 3000);
+  </script>
+</body>
+</html>
